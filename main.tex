@@ -1,0 +1,381 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={John Doe's CV},
+    pdfauthor={Malthe Sporring},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Malthe Sporring - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    %\placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Malthe Sporring}
+
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:malthe.sporring@ed.ac.uk}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}malthe.sporring@ed.ac.uk}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://malthefogsporring.github.io/}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}malthefogsporring.github.io}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/malthefogsporring}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}malthefogsporring}}%
+    \end{header}
+
+    \vspace{0.3 cm - 0.3 cm}
+
+    \section{Education}
+
+
+
+        
+        \begin{twocolentry}{
+            
+            
+        \textit{Sep 2022 - Aug 2026}}
+            \textbf{University of Edinburgh}
+
+            \textit{PhD Geometry and Topology}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Working with Prof. Clark Barwick on a project on "Koszul duality of $\infty-$operads."
+                \item Member of the GlaMS PhD training Centre.
+            \end{highlights}
+        \end{onecolentry}
+        \vspace{0.10 cm} 
+        \begin{twocolentry}{
+           
+            
+        \textit{Sep 2017 - May 2022}}
+            \textbf{University of Edinburgh}
+
+            \textit{MMath Mathematics}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Awarded a 2021 Summer Vacation Scholarship for a project on “Axiomatic Homology and the Borsuk-Ulam Theorem”.
+                \item Awarded a Year 1 Certificate of Merit.
+            \end{highlights}
+        \end{onecolentry}
+
+
+
+    
+    \section{Experience}
+
+
+
+        
+        \begin{twocolentry}{
+ 
+            
+        \textit{Jan 2023 - Current}}
+            \textbf{Mathematics Tutor}
+            
+            \textit{University of Edinburgh}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Experienced tutor of undergraduate mathematics, in topics ranging from pure to applied; introductory to advanced.
+                \item Receiving training on reflective practices as work towards an Edinburgh Teaching Award.
+                \item (Spring 2023) Algebraic Topology, Fundamentals of Pure Mathematics.
+                \item (Autumn 2023) Category Theory, Honours Analysis - Skills (Presentation skills), MathsBase (Homework help).
+                \item (Spring 2024) Honours Algebra - Skills (Mathematical computing), Proofs and Problem Solving.
+                \item (Autumn 2024) Accelerated Proofs and Problem Solving, Axiomatic Set Theory, MathsBase.
+                \item (Spring 2025) Calculus and its Applications.
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{Aug 2022 - Sep 2022}}
+            \textbf{Online Assessment Intern}
+            
+            \textit{University of Glasgow}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Responsible for converting a series of diagnostics tests for undergraduate students into the STACK system.
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{May 2022 - June 2022}}
+            \textbf{Online Assessment Intern}
+            
+            \textit{Heriot-Watt University}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Took part in a project to introduce STACK assessment in first year mathematics courses. This included designing new questions, and running a workshop for colleagues.
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{Jan 2020 - May 2022}}
+            \textbf{Freelance Mathematics Tutor}        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Gained experience tutoring students age 16-18 of the International Baccalaureate programme, in both an individual and group setting.
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{June 2020 - Aug 2020}}
+            \textbf{ASID Intern}
+            
+            \textit{University of Edinburgh}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Took part in a project to turn the HELM mathematics workbooks into STACK quizzes. This included conducting quality-assurance on questions written by colleagues.
+                \item Gained experience in teaching STACK from organizing and speaking at eight STACK workshops.
+                \item Learned HTML and CSS through designing the official website \hrefWithoutArrow{https://stack-assessment.org/}{stack-assessment.org}. 
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{June 2019 - Aug 2019}}
+            \textbf{Online Assessment Community Engagement
+Intern}
+            
+            \textit{University of Edinburgh}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Responsible for improving the learning experience of the online assessment system STACK.
+                \item Collated a  \hrefWithoutArrow{https://docs.stack-assessment.org/content/2019-cate-case-studies.pdf}{a collection of cases studies} detailing innovative use of STACK. 
+                \item Conducted a survey of STACK users world-wide.
+            \end{highlights}
+        \end{onecolentry}
+    
+    \section{Additional Accomplishments}
+
+
+
+        
+        \begin{twocolentry}{
+        \textit{Sep 2023 - Dec 2023}}
+            \textbf{Twoples Mentor}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Mentored a project on algebraic topology for \hrefWithoutArrow{https://sites.google.com/view/twoples/home}{Twoples}, an online directed reading program for mathematics undergraduates
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+                \begin{twocolentry}{
+        \textit{Sep 2020}}
+            \textbf{Teaching Intern}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Completed a two-week teaching internship at the upper-secondary school Birkerød Gymnasium, HF and IB.
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+                \begin{twocolentry}{
+        \textit{April 2019 - April 2020}}
+            \textbf{Publicist for the University of Edinburgh Swing Dance Society}
+        \end{twocolentry}
+
+        \vspace{0.2 cm}
+
+
+                \begin{twocolentry}{
+        \textit{April 2018 - April 2019}}
+            \textbf{Treasurer for the University of Edinburgh Swing Dance Society}
+        \end{twocolentry}
+
+
+    
+    \section{Technologies}
+
+        \begin{onecolentry}
+            Experienced user of Python, Git, LEAN and LaTeX.
+            
+            \vspace{0.2 cm}
+
+            Experienced in online mathematics assessment via STACK
+        \end{onecolentry}
+
+    
+
+\end{document}
